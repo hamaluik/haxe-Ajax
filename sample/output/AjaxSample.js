@@ -44,7 +44,7 @@ var Sample = function() { };
 Sample.__name__ = true;
 Sample.main = function() {
 	var container = window.document.getElementsByTagName("pre")[0];
-	js_html_Ajax.request("GET","/test").then(function(res) {
+	js_html_Ajax.request("GET","./test").then(function(res) {
 		container.innerText = res.response;
 	}).catchError(function(err) {
 		window.console.error(err);

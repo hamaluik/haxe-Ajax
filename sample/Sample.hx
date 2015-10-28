@@ -11,7 +11,7 @@ class Sample {
 		// using GET, to /test
 		Ajax.request(
 			HTTPMethod.GET,
-			'/test'
+			'./test'
 		).then(function(res:Response) {
 			// set the container's text to our response
 			container.innerText = res.response;

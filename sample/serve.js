@@ -8,7 +8,7 @@ app.get('/test', function(req, res, next) {
   res.json({
   	greetings: "Hello world!"
   })
-});*/
+});
 
 app.listen(app.get('port'), function() {
   console.log("Sample app is running at localhost:" + app.get('port'))
