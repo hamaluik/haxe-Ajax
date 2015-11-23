@@ -44,17 +44,58 @@ var Sample = function() { };
 Sample.__name__ = true;
 Sample.main = function() {
 	var container = window.document.getElementsByTagName("pre")[0];
-	js_html_Ajax.request("GET","./test").then(function(res) {
-		container.innerText = res.response;
+	js_html_Ajax.request("POST","localhost:8008/api/v1/auth",null,{ name : "Kenton", password : "derp"}).then(function(res) {
+		window.console.log(res);
 	}).catchError(function(err) {
 		window.console.error(err);
 	});
 };
+var haxe_IMap = function() { };
+haxe_IMap.__name__ = true;
 var haxe_ds_Option = { __ename__ : true, __constructs__ : ["Some","None"] };
 haxe_ds_Option.Some = function(v) { var $x = ["Some",0,v]; $x.__enum__ = haxe_ds_Option; $x.toString = $estr; return $x; };
 haxe_ds_Option.None = ["None",1];
 haxe_ds_Option.None.toString = $estr;
 haxe_ds_Option.None.__enum__ = haxe_ds_Option;
+var haxe_ds__$StringMap_StringMapIterator = function(map,keys) {
+	this.map = map;
+	this.keys = keys;
+	this.index = 0;
+	this.count = keys.length;
+};
+haxe_ds__$StringMap_StringMapIterator.__name__ = true;
+haxe_ds__$StringMap_StringMapIterator.prototype = {
+	hasNext: function() {
+		return this.index < this.count;
+	}
+	,next: function() {
+		return this.map.get(this.keys[this.index++]);
+	}
+};
+var haxe_ds_StringMap = function() { };
+haxe_ds_StringMap.__name__ = true;
+haxe_ds_StringMap.__interfaces__ = [haxe_IMap];
+haxe_ds_StringMap.prototype = {
+	get: function(key) {
+		if(__map_reserved[key] != null) return this.getReserved(key);
+		return this.h[key];
+	}
+	,getReserved: function(key) {
+		if(this.rh == null) return null; else return this.rh["$" + key];
+	}
+	,arrayKeys: function() {
+		var out = [];
+		for( var key in this.h ) {
+		if(this.h.hasOwnProperty(key)) out.push(key);
+		}
+		if(this.rh != null) {
+			for( var key in this.rh ) {
+			if(key.charCodeAt(0) == 36) out.push(key.substr(1));
+			}
+		}
+		return out;
+	}
+};
 var js__$Boot_HaxeError = function(val) {
 	Error.call(this);
 	this.val = val;
@@ -140,10 +181,17 @@ js_html_Ajax.__name__ = true;
 js_html_Ajax.res = function(xhr) {
 	return { status : xhr.status, response : xhr.response, xhr : xhr};
 };
-js_html_Ajax.request = function(method,url,data) {
+js_html_Ajax.request = function(method,url,headers,data) {
 	var def = new promhx_Deferred();
 	var prom = def.promise();
 	var xhr = new XMLHttpRequest();
+	if(headers != null) {
+		var $it0 = new haxe_ds__$StringMap_StringMapIterator(headers,headers.arrayKeys());
+		while( $it0.hasNext() ) {
+			var header = $it0.next();
+			xhr.setRequestHeader(header,__map_reserved[header] != null?headers.getReserved(header):headers.h[header]);
+		}
+	}
 	xhr.open(method,url,true);
 	xhr.onload = function() {
 		if(xhr.status >= 200 && xhr.status < 300) def.resolve(js_html_Ajax.res(xhr)); else def.throwError(js_html_Ajax.res(xhr));
@@ -716,6 +764,7 @@ if(Array.prototype.filter == null) Array.prototype.filter = function(f1) {
 	}
 	return a1;
 };
+var __map_reserved = {}
 var global = window;
 (function (global, undefined) {
     "use strict";

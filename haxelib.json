@@ -4,8 +4,8 @@
   "license": "MIT",
   "tags": ["js"],
   "description": "A simple library for firing promise-based 'ajax' requests (useful when interacting with REST APIs).",
-  "version": "1.0.0",
-  "releasenote": "Initial release, everything is working correctly.",
+  "version": "1.1.0",
+  "releasenote": "Added ability to set headers and use a string instead of dynamic object.",
   "contributors": ["FuzzyWuzzie"],
   "dependencies": {
   	"promhx": ""

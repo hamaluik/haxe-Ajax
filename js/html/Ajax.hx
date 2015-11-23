@@ -1,5 +1,6 @@
 package js.html;
 
+import haxe.ds.StringMap;
 import js.html.XMLHttpRequest;
 import promhx.Promise;
 import promhx.Deferred;
@@ -27,12 +28,17 @@ class Ajax {
 		};
 	}
 
-	public static function request(method:HTTPMethod, url:String, ?data:Dynamic):Promise<Response> {
+	public static function request(method:HTTPMethod, url:String, ?headers:StringMap<String>, ?data:String):Promise<Response> {
 		var def = new Deferred<Response>();
 		var prom = def.promise();
 
 		var xhr:XMLHttpRequest = new XMLHttpRequest();
 		xhr.open(method, url, true);
+		if(headers != null) {
+			for(header in headers.keys()) {
+				xhr.setRequestHeader(header, headers.get(header));
+			}
+		}
 		xhr.onload = function() {
 			if(xhr.status >= 200 && xhr.status < 300) {
 				def.resolve(res(xhr));
